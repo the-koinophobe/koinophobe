@@ -42,7 +42,7 @@ export function PageHero({ t, label, title, subtitle, children }: PageHeroProps)
   return (
     <div style={{
       background: t.bg2, borderBottom: `1px solid ${t.border}`,
-      padding: "9rem 3.5rem 5rem", position: "relative", overflow: "hidden",
+      padding: "clamp(6rem,9vw,9rem) clamp(1.25rem,3.5vw,3.5rem) 5rem", position: "relative", overflow: "hidden",
     }}>
       {/* Grid background */}
       <div style={{
@@ -95,7 +95,7 @@ export function CTAStrip({
   btn = "Book a Free Call",
 }: CTAStripProps) {
   return (
-    <section style={{ background: t.accent, padding: "6rem 3.5rem", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: t.accent, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)", position: "relative", overflow: "hidden" }}>
       <Meteors number={22} className="[&>span]:bg-black [&>span]:before:from-black/60" />
       {/* Tiled white logo at 5% opacity */}
       <div

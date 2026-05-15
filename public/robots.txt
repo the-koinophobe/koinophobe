@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Specific crawler hints
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Disallow:
+
+Sitemap: https://koinophobe.dev/sitemap.xml

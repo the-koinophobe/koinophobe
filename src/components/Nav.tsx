@@ -42,20 +42,20 @@ export default function Nav({ t, dark, setDark, page, go }: NavProps) {
                 )}
               </motion.button>
             ))}
-
-            <motion.button onClick={() => setDark(!dark)} whileTap={{ scale: 0.9 }}
-              style={{ background: t.bg3, border: `1px solid ${t.border}`, borderRadius: 20, padding: "5px 11px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, color: t.mid }}>
-              <AnimatePresence mode="wait">
-                <motion.span key={dark ? "sun" : "moon"}
-                  initial={{ rotate: -20, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 20, opacity: 0 }}
-                  transition={{ duration: 0.18 }}>
-                  {dark ? <TbSun size={13} /> : <TbMoon size={13} />}
-                </motion.span>
-              </AnimatePresence>
-            </motion.button>
-
             <Btn onClick={() => nav("contact")} t={t} icon={<TbArrowUpRight size={13} />}>Book a Call</Btn>
           </div>
+
+          {/* Dark mode toggle — always visible on all sizes */}
+          <motion.button onClick={() => setDark(!dark)} whileTap={{ scale: 0.9 }}
+            style={{ background: t.bg3, border: `1px solid ${t.border}`, borderRadius: 20, padding: "5px 11px", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, color: t.mid }}>
+            <AnimatePresence mode="wait">
+              <motion.span key={dark ? "sun" : "moon"}
+                initial={{ rotate: -20, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 20, opacity: 0 }}
+                transition={{ duration: 0.18 }}>
+                {dark ? <TbSun size={13} /> : <TbMoon size={13} />}
+              </motion.span>
+            </AnimatePresence>
+          </motion.button>
 
           <motion.button className="nm" onClick={() => setOpen(!open)} whileTap={{ scale: 0.9 }}
             style={{ background: "none", border: "none", cursor: "pointer", color: t.text }}>

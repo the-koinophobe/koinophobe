@@ -16,9 +16,9 @@ function CaseDetail({ c, t, go, setSlug }: CaseDetailProps) {
   const nextCase = CASES[(idx + 1) % CASES.length];
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.45, ease: EASE }}>
-      <div style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "9rem 3.5rem 4rem" }}>
+      <div style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "clamp(6rem,9vw,9rem) clamp(1.25rem,3.5vw,3.5rem) 4rem" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-          <motion.button onClick={() => { setSlug(null); window.scrollTo(0, 0); }} whileHover={{ x: -4 }}
+          <motion.button onClick={() => { setSlug(null); go("work"); window.scrollTo(0, 0); }} whileHover={{ x: -4 }}
             style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: t.mid, background: "none", border: "none", cursor: "pointer", marginBottom: "2.5rem" }}>
             <TbArrowLeft size={14} /> Back to Work
           </motion.button>
@@ -49,7 +49,7 @@ function CaseDetail({ c, t, go, setSlug }: CaseDetailProps) {
         </div>
       </div>
 
-      <section style={{ background: t.bg, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div className="cbd" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr", gap: "5rem", alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "3rem" }}>
             {([["The Challenge", c.challenge], ["The Solution", c.solution], ["The Result", c.result]] as [string, string][]).map(([label, text], i) => (
@@ -95,10 +95,10 @@ function CaseDetail({ c, t, go, setSlug }: CaseDetailProps) {
         <style>{`.cbd{grid-template-columns:2fr 1fr!important;}@media(max-width:900px){.cbd{grid-template-columns:1fr!important;gap:3rem!important;}}`}</style>
       </section>
 
-      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "4rem 3.5rem" }}>
+      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "clamp(2.5rem,4vw,4rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
           <div style={{ fontFamily: "monospace", fontSize: 10, color: t.low, letterSpacing: "0.15em", textTransform: "uppercase" }}>Next case study</div>
-          <motion.button onClick={() => { setSlug(nextCase.slug); window.scrollTo(0, 0); }} whileHover={{ x: 6 }}
+          <motion.button onClick={() => { setSlug(nextCase.slug); go("work", nextCase.slug); window.scrollTo(0, 0); }} whileHover={{ x: 6 }}
             style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "clamp(1rem,2vw,1.5rem)", fontWeight: 700, color: t.text, background: "none", border: "none", cursor: "pointer" }}>
             {nextCase.title} <TbArrowRight size={20} style={{ color: t.accent }} />
           </motion.button>
@@ -121,7 +121,7 @@ export default function Work({ t, go, slug, setSlug }: WorkProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.45, ease: EASE }}>
 
-      <section style={{ background: t.bg, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <div style={{ display: "flex", gap: 8, marginBottom: "3.5rem", flexWrap: "wrap" }}>
             {(["all", "agency", "freelance"] as const).map(f => (
@@ -161,7 +161,7 @@ export default function Work({ t, go, slug, setSlug }: WorkProps) {
                           <span key={j} style={{ fontFamily: "monospace", fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", padding: "3px 8px", border: `1px solid ${t.border2}`, borderRadius: 2, color: t.low }}>{p}</span>
                         ))}
                       </div>
-                      <Btn onClick={() => { setSlug(c.slug); window.scrollTo(0, 0); }} t={t} variant="ghost" icon={<TbArrowRight size={13} />}>Full case study</Btn>
+                      <Btn onClick={() => { setSlug(c.slug); go("work", c.slug); window.scrollTo(0, 0); }} t={t} variant="ghost" icon={<TbArrowRight size={13} />}>Full case study</Btn>
                     </div>
                   </div>
                 </motion.article>

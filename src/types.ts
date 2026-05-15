@@ -20,7 +20,7 @@ export interface Theme {
 // ─── NAVIGATION ───────────────────────────────────────────────────────────────
 export type Page = "home" | "services" | "work" | "process" | "blog" | "contact";
 
-export type GoFn = (p: string) => void;
+export type GoFn = (p: string, slug?: string) => void;
 
 // ─── CONTENT ──────────────────────────────────────────────────────────────────
 export interface CaseMetric {

@@ -60,7 +60,7 @@ export default function Process({ t, go }: WithThemeAndGo) {
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.45, ease: EASE }}>
       <PageHero t={t} label="Process" title={<>Simple process.<br /><Em t={t}>No surprises.</Em></>} subtitle="Six steps from discovery call to map pack rankings and AI Overview citations. You know exactly what happens at every stage." />
 
-      <section style={{ background: t.bg, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div className="gsap-steps-grid" style={{ maxWidth: 1180, margin: "0 auto" }}>
           {STEPS.map((s, i) => (
             <Reveal key={i} delay={i * 0.04}>
@@ -107,7 +107,7 @@ export default function Process({ t, go }: WithThemeAndGo) {
         </div>
       </section>
 
-      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div className="gsap-timeline" style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal><Label text="Timeline" t={t} /><Hed t={t} style={{ marginBottom: "3rem" }}>What happens <Em t={t}>when.</Em></Hed></Reveal>
           {TIMELINE.map((row, i) => (

@@ -328,71 +328,86 @@ export const Card = ({
         document.body
       )}
 
-      {/* ── Card thumbnail ────────────────────────────────────────────────────── */}
+      {/* ── Card thumbnail — styled to match site design ────────────────────── */}
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        whileHover={{ y: -5, boxShadow: "0 12px 32px rgba(0,0,0,0.12)" }}
+        whileHover={{ y: -6, boxShadow: "0 20px 48px rgba(0,0,0,0.38), 0 0 0 1px var(--kc-accent, #8be000)" }}
         whileTap={{ scale: 0.985 }}
-        transition={{ duration: 0.18, ease: "easeOut" }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
         style={{
           width: CARD_W,
           height: 480,
-          borderRadius: 20,
-          background: "#f5f5f5",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+          borderRadius: 4,
+          background: "var(--kc-card, #1a1916)",
+          border: "1px solid var(--kc-border, #2a2724)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.28)",
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
           flexShrink: 0,
           cursor: "pointer",
-          border: "none",
           padding: 0,
           textAlign: "left",
         }}
       >
-        {/* Image zone — taller to reduce white text area */}
-        <div style={{ height: "72%", overflow: "hidden", flexShrink: 0 }}>
+        {/* Image zone */}
+        <div style={{ height: "72%", overflow: "hidden", flexShrink: 0, position: "relative" }}>
           <BlurImage
             src={card.src}
             alt={card.title}
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
+          {/* Gradient scrim at bottom of image */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", pointerEvents: "none",
+            background: "linear-gradient(to top, var(--kc-card, #1a1916) 0%, transparent 100%)",
+          }} />
         </div>
 
         {/* Hairline divider */}
-        <div style={{ height: 1, background: "#e8e8e8", flexShrink: 0 }} />
+        <div style={{ height: 1, background: "var(--kc-border, #2a2724)", flexShrink: 0 }} />
 
         {/* Text zone */}
         <div style={{
           flex: 1,
-          padding: "10px 14px 12px",
+          padding: "14px 16px 16px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          gap: 4,
+          gap: 6,
         }}>
+          {/* Category tag */}
+          <p style={{
+            fontFamily: "monospace",
+            fontSize: 9,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "var(--kc-accent, #8be000)",
+            margin: 0,
+          }}>
+            {card.category}
+          </p>
+          {/* Title */}
           <p style={{
             fontFamily: "'Clash Grotesk', system-ui, sans-serif",
             fontSize: 14,
             fontWeight: 700,
-            color: "#0f0f0f",
+            color: "var(--kc-text, #f2ede3)",
             letterSpacing: "-0.02em",
             lineHeight: 1.25,
             margin: 0,
           }}>
             {card.title}
           </p>
-          <p style={{
+          {/* Arrow indicator */}
+          <span style={{
             fontFamily: "monospace",
-            fontSize: 9,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "#999",
-            margin: 0,
-          }}>
-            {card.category}
-          </p>
+            fontSize: 14,
+            color: "var(--kc-accent, #8be000)",
+            marginTop: 2,
+            display: "block",
+          }}>↗</span>
         </div>
       </motion.button>
     </>

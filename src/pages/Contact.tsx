@@ -20,7 +20,7 @@ const FAQS: FAQ[] = [
 const NEXT_STEPS = ["We read your message and research your business","Reply within 24 hours with initial thoughts","30-min discovery call to confirm scope and fit","Fixed-price proposal sent the same day as the call"];
 
 const CONTACT_ROWS = [
-  { icon: <TbMail size={16} />,     l: "Email",           v: "hello@koinophobe.dev" },
+  { icon: <TbMail size={16} />,     l: "Email",           v: "michael@koinophobe.dev" },
   { icon: <TbClock size={16} />,    l: "Response time",   v: "Within 24 hours" },
   { icon: <TbCalendar size={16} />, l: "Discovery calls", v: "Mon-Fri, 9am-6pm EST" },
 ];
@@ -74,7 +74,7 @@ export default function Contact({ t }: WithTheme) {
       </div>
       <PageHero t={t} label="Book a Free Call" title={<>Tell us about<br /><Em t={t}>your business.</Em></>} subtitle="30 minutes. We will tell you exactly what we would do, what it costs, and whether we are the right fit." />
 
-      <section style={{ background: t.bg, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div className="cg" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: "5rem", alignItems: "start" }}>
           <Reveal>
             {status === "sent" ? (

@@ -6,7 +6,7 @@ import {
   TbWorldWww, TbMapPin, TbArrowUpRight, TbArrowRight,
   TbCircleCheck, TbMessageCircle, TbBrain, TbAlertTriangle,
 } from "react-icons/tb";
-import { Reveal, Label, Hed, Em, Btn } from "../components/ui";
+import { Reveal, Label, Hed, Em, Btn, Counter } from "../components/ui";
 import MagnetLines from "../components/ui/magnet-lines";
 import { Marquee, CTAStrip } from "../components/sections";
 import { EASE } from "../theme";
@@ -24,51 +24,23 @@ export default function Home({ t, go }: WithThemeAndGo) {
   const statsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Stagger in the stat cards
-      gsap.from(".stat-card", {
-        scrollTrigger: { trigger: statsRef.current, start: "top 80%", once: true },
-        y: 32, opacity: 0, duration: 0.55, stagger: 0.12, ease: "power3.out",
-      });
-      // Count-up for each number
-      [
-        { el: ".stat-num-0", end: 76, suffix: "%" },
-        { el: ".stat-num-1", end: 60, suffix: "%" },
-        { el: ".stat-num-2", end: 27, suffix: "×" },
-      ].forEach(({ el, end, suffix }) => {
-        const node = statsRef.current?.querySelector(el);
-        if (!node) return;
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: end,
-          duration: 1.4,
-          ease: "power2.out",
-          scrollTrigger: { trigger: statsRef.current, start: "top 80%", once: true },
-          onUpdate() { node.textContent = Math.round(obj.val) + suffix; },
-        });
-      });
-
-      // ─── GSAP: hero heading word slide-in ─────────────────────────────────
+      // ─── Hero heading word slide-in ────────────────────────────────────────
       gsap.from(".hero-word", {
         y: "110%", opacity: 0, duration: 0.7, stagger: 0.08, ease: "power3.out", delay: 0.2,
       });
 
-      // ─── GSAP: service cards stagger on scroll ────────────────────────────
+      // ─── Service cards stagger on scroll ──────────────────────────────────
+      // Small delay so Reveal's parent animation completes first
       gsap.from(".gsap-svc-card", {
         scrollTrigger: { trigger: ".gsap-svc-section", start: "top 75%", once: true },
-        y: 48, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power3.out",
+        y: 40, opacity: 0, duration: 0.55, stagger: 0.09, ease: "power3.out",
       });
 
-      // ─── GSAP: testimonial cards stagger ─────────────────────────────────
-      gsap.from(".gsap-testi", {
-        scrollTrigger: { trigger: ".gsap-testi", start: "top 85%", once: true },
-        y: 36, opacity: 0, duration: 0.5, stagger: 0.09, ease: "power3.out",
-      });
-
-      // ─── GSAP: horizontal parallax on section labels ──────────────────────
+      // ─── Horizontal parallax on section labels ─────────────────────────────
       gsap.utils.toArray<HTMLElement>(".gsap-label-slide").forEach((el) => {
         gsap.from(el, {
           scrollTrigger: { trigger: el, start: "top 88%", once: true },
-          x: -24, opacity: 0, duration: 0.5, ease: "power2.out",
+          x: -20, opacity: 0, duration: 0.45, ease: "power2.out",
         });
       });
     });
@@ -86,7 +58,7 @@ export default function Home({ t, go }: WithThemeAndGo) {
       {/* ICP BAR */}
       <div style={{
         background: t.bg3, borderBottom: `1px solid ${t.border}`,
-        padding: "10px 3.5rem", display: "flex", alignItems: "center",
+        padding: "10px clamp(1.25rem, 3.5vw, 3.5rem)", display: "flex", alignItems: "center",
         justifyContent: "center", gap: 10, flexWrap: "wrap",
       }}>
         <div style={{ width: 6, height: 6, borderRadius: "50%", background: t.accent, flexShrink: 0 }} />
@@ -225,20 +197,22 @@ export default function Home({ t, go }: WithThemeAndGo) {
       <Marquee t={t} items={["WordPress Design", "Local SEO", "AEO", "AI Overviews", "Google Business Profile", "WooCommerce", "Citation Building", "Page Speed", "Schema Markup", "Map Pack Rankings", "FAQ Schema"]} />
 
       {/* THE COST OF INVISIBILITY */}
-      <section style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "8rem 3.5rem" }}>
+      <section style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "clamp(4rem,8vw,8rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div className="mg" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 2fr", gap: "6rem", alignItems: "start" }}>
           <Reveal>
             <div className="gsap-label-slide"><Label text="What Invisibility Costs You" t={t} /></div>
             <Hed t={t}>Every month you wait<br /><Em t={t}>is revenue gone.</Em></Hed>
             {/* ─── 3 metrics horizontal ─── */}
-            <div ref={statsRef} style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "0", marginTop: "2rem", border: `1px solid ${t.border}`, borderRadius: 3, overflow: "hidden" }}>
+            <div ref={statsRef} className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "0", marginTop: "2rem", border: `1px solid ${t.border}`, borderRadius: 3, overflow: "hidden" }}>
               {[
-                { val: "76%",  cls: "stat-num-0", label: "of local searches result in a store visit or call within 24 hours — if the business shows up" },
-                { val: "60%",  cls: "stat-num-1", label: "of searches now end without a click because AI answered it — from someone else's content" },
-                { val: "27×",  cls: "stat-num-2", label: "more clicks for position #1 vs position #10 — the gap compounds every single day" },
+                { to: 76, suffix: "%",  label: "of local searches result in a store visit or call within 24 hours — if the business shows up" },
+                { to: 60, suffix: "%",  label: "of searches now end without a click because AI answered it — from someone else's content" },
+                { to: 27, suffix: "×",  label: "more clicks for position #1 vs position #10 — the gap compounds every single day" },
               ].map((s, i) => (
                 <div key={i} className="stat-card" style={{ padding: "1.5rem 1.25rem", borderRight: i < 2 ? `1px solid ${t.border}` : "none", background: t.card }}>
-                  <div className={s.cls} style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "clamp(2rem,3.5vw,2.75rem)", fontWeight: 700, color: t.accent, letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>{s.val}</div>
+                  <div style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "clamp(2rem,3.5vw,2.75rem)", fontWeight: 700, color: t.accent, letterSpacing: "-0.04em", lineHeight: 1, marginBottom: 8 }}>
+                    <Counter to={s.to} suffix={s.suffix} duration={1.8} />
+                  </div>
                   <div style={{ fontSize: 12, color: t.mid, lineHeight: 1.55 }}>{s.label}</div>
                 </div>
               ))}
@@ -277,11 +251,11 @@ export default function Home({ t, go }: WithThemeAndGo) {
             </Reveal>
           </div>
         </div>
-        <style>{`.mg{grid-template-columns:1fr 2fr!important;}@media(max-width:900px){.mg{grid-template-columns:1fr!important;gap:3rem!important;}}`}</style>
+        <style>{`.mg{grid-template-columns:1fr 2fr!important;}@media(max-width:900px){.mg{grid-template-columns:1fr!important;gap:3rem!important;}}.stats-grid{grid-template-columns:repeat(3,1fr)!important;}@media(max-width:600px){.stats-grid{grid-template-columns:1fr!important;}.stat-card{border-right:none!important;border-bottom:1px solid var(--border-col);}}`}</style>
       </section>
 
       {/* SERVICES PREVIEW */}
-      <section className="gsap-svc-section" style={{ background: t.bg, padding: "8rem 3.5rem" }}>
+      <section className="gsap-svc-section" style={{ background: t.bg, padding: "clamp(4rem,8vw,8rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "4rem", gap: "2rem", flexWrap: "wrap" }}>
             <Reveal><Label text="What We Do" t={t} /><Hed t={t}>Three services.<br /><Em t={t}>One outcome: more calls.</Em></Hed></Reveal>
@@ -303,7 +277,7 @@ export default function Home({ t, go }: WithThemeAndGo) {
               },
               {
                 icon: <TbBrain size={36} />, num: "03", name: "AEO — AI Overviews",
-                price: "Included in retainer", tag: "New in 2025",
+                price: "Included in retainer", tag: "New in 2026",
                 desc: "60% of searches now end without a click because AI answered the question. We make sure the AI is citing you, not your competitors.",
                 features: ["FAQ schema markup", "AI Overview-optimised Q&A content", "LocalBusiness + Service schema", "Citation authority building", "GBP Q&A optimisation"],
               },
@@ -371,18 +345,18 @@ export default function Home({ t, go }: WithThemeAndGo) {
       </section>
 
       {/* WORK PREVIEW */}
-      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, paddingTop: "8rem", paddingBottom: "2rem" }}>
-        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 3.5rem", marginBottom: "3.5rem" }}>
+      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, paddingTop: "clamp(4rem,8vw,8rem)", paddingBottom: "2rem" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 clamp(1.25rem,3.5vw,3.5rem)", marginBottom: "3.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "2rem", flexWrap: "wrap" }}>
             <Reveal><Label text="Recent Work" t={t} /><Hed t={t}>Results, not<Em t={t}> promises.</Em></Hed></Reveal>
             <Reveal delay={0.1}><Btn onClick={() => go("work")} t={t} variant="ghost" icon={<TbArrowRight size={13} />}>All case studies</Btn></Reveal>
           </div>
         </div>
-        <AppleCardsCarouselDemo />
+        <AppleCardsCarouselDemo t={t} />
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "8rem 3.5rem" }}>
+      <section style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "clamp(4rem,8vw,8rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
             <Label text="Client Results" t={t} />

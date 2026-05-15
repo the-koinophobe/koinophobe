@@ -178,7 +178,7 @@ export default function Services({ t, go }: WithThemeAndGo) {
           <Reveal>
             <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "1.25rem" }}>
               <div style={{ width: 44, height: 44, background: t.accentBg, borderRadius: 2, display: "flex", alignItems: "center", justifyContent: "center", color: t.accent }}><TbBrain size={22} /></div>
-              <Label text="Service 03 — New in 2025" t={t} />
+              <Label text="Service 03 — New in 2026" t={t} />
             </div>
             <Hed t={t} style={{ marginBottom: "1rem" }}>AEO — Answer Engine Optimisation</Hed>
             <p style={{ fontSize: 17, color: t.mid, lineHeight: 1.8, maxWidth: "56ch", marginBottom: "2rem" }}>
@@ -264,7 +264,7 @@ export default function Services({ t, go }: WithThemeAndGo) {
       </section>
 
       {/* INDUSTRIES */}
-      <section style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
             <Label text="Who We Work With" t={t} />

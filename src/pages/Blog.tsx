@@ -10,12 +10,20 @@ import { useDocumentMeta } from "../hooks/useDocumentMeta";
 interface PostDetailProps { post: Post; t: BlogProps["t"]; go: BlogProps["go"]; setPostSlug: BlogProps["setPostSlug"]; }
 
 function PostDetail({ post, t, go, setPostSlug }: PostDetailProps) {
+  // Per-article dynamic meta (JS fallback — SSG handles this statically per route)
+  useDocumentMeta({
+    title: `${post.title} | koinophobe.dev`,
+    description: post.excerpt,
+    canonicalPath: `/blog/${post.slug}`,
+  });
+
   const others = POSTS.filter(p => p.slug !== post.slug);
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.45, ease: EASE }}>
-      <div style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "9rem 3.5rem 4rem" }}>
+      {/* Article header */}
+      <div style={{ background: t.bg2, borderBottom: `1px solid ${t.border}`, padding: "clamp(6rem,9vw,9rem) clamp(1.25rem,3.5vw,3.5rem) 4rem" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
-          <motion.button onClick={() => { setPostSlug(null); window.scrollTo(0, 0); }} whileHover={{ x: -4 }}
+          <motion.button onClick={() => { setPostSlug(null); go("blog"); }} whileHover={{ x: -4 }}
             style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "monospace", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: t.mid, background: "none", border: "none", cursor: "pointer", marginBottom: "2rem" }}>
             <TbArrowLeft size={14} /> Back to Blog
           </motion.button>
@@ -24,30 +32,55 @@ function PostDetail({ post, t, go, setPostSlug }: PostDetailProps) {
             <div style={{ fontFamily: "monospace", fontSize: 10, color: t.low, letterSpacing: "0.08em" }}>{post.date} · {post.read} read</div>
           </div>
           <h1 style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "clamp(1.75rem,3.5vw,3rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.025em", color: t.text }}>{post.title}</h1>
+          {/* Lead paragraph from excerpt */}
+          <p style={{ marginTop: "1.5rem", fontSize: 18, color: t.mid, lineHeight: 1.8, fontStyle: "italic", borderLeft: `3px solid ${t.accent}`, paddingLeft: "1.25rem" }}>{post.excerpt}</p>
         </div>
       </div>
-      <section style={{ background: t.bg, padding: "5rem 3.5rem" }}>
+
+      {/* Article body */}
+      <article style={{ background: t.bg, padding: "clamp(3rem,5vw,5rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           {post.body.map((block, i) => (
-            <Reveal key={i} delay={i * 0.03}>
+            <Reveal key={i} delay={i * 0.02}>
               {block.t === "h2"
                 ? <h2 style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "clamp(1.3rem,2.5vw,1.75rem)", fontWeight: 700, color: t.text, letterSpacing: "-0.02em", lineHeight: 1.2, marginTop: "3rem", marginBottom: "1.25rem" }}>{block.s}</h2>
-                : <p style={{ fontSize: 17, color: t.mid, lineHeight: 1.85, marginBottom: "1.5rem" }}>{block.s}</p>
+                : <p style={{ fontSize: 17, color: t.mid, lineHeight: 1.9, marginBottom: "1.65rem" }}>{block.s}</p>
               }
             </Reveal>
           ))}
-          <div style={{ marginTop: "4rem", paddingTop: "3rem", borderTop: `1px solid ${t.border}` }}>
-            <Btn onClick={() => go("contact")} t={t} icon={<TbArrowUpRight size={13} />}>Get this done for your business</Btn>
+
+          {/* End CTA */}
+          <div style={{ marginTop: "4rem", paddingTop: "3rem", borderTop: `1px solid ${t.border}`, display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <div style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "1.35rem", fontWeight: 700, color: t.text, lineHeight: 1.3 }}>
+              Want this done for your business?
+            </div>
+            <p style={{ fontSize: 15, color: t.mid, lineHeight: 1.7, maxWidth: "46ch" }}>
+              30 minutes. We will show you exactly what your site is missing and what it takes to fix it — for your city, your service, your competitors.
+            </p>
+            <Btn onClick={() => go("contact")} t={t} icon={<TbArrowUpRight size={13} />}>Get a Free Audit</Btn>
+          </div>
+
+          {/* Author / source note */}
+          <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: `1px solid ${t.border}`, display: "flex", gap: "1rem", alignItems: "center" }}>
+            <div style={{ width: 42, height: 42, borderRadius: "50%", background: t.accentBg, border: `1px solid ${t.border2}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontWeight: 700, color: t.accent, fontSize: "1rem" }}>M</span>
+            </div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: t.text }}>Michael Edward</div>
+              <div style={{ fontFamily: "monospace", fontSize: 10, color: t.low, letterSpacing: "0.08em" }}>Web Designer & Local SEO Specialist · koinophobe.dev</div>
+            </div>
           </div>
         </div>
-      </section>
-      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "5rem 3.5rem" }}>
+      </article>
+
+      {/* Related articles */}
+      <section style={{ background: t.bg2, borderTop: `1px solid ${t.border}`, padding: "clamp(3rem,5vw,5rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <div style={{ fontFamily: "monospace", fontSize: 10, color: t.low, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "2rem" }}>More from the blog</div>
           <div className="rg" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1.25rem" }}>
             {others.map((p, i) => (
               <Reveal key={i} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -3, borderColor: t.border2 }} onClick={() => { setPostSlug(p.slug); window.scrollTo(0, 0); }}
+                <motion.div whileHover={{ y: -3, borderColor: t.border2 }} onClick={() => { setPostSlug(p.slug); go("blog", p.slug); window.scrollTo(0, 0); }}
                   style={{ border: `1px solid ${t.border}`, borderRadius: 3, padding: "1.75rem", background: t.card, cursor: "pointer" }}>
                   <div style={{ fontFamily: "monospace", fontSize: 9, color: t.accent, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>{p.tag}</div>
                   <div style={{ fontFamily: "'Clash Grotesk',system-ui,sans-serif", fontSize: "1rem", fontWeight: 700, color: t.text, lineHeight: 1.3, marginBottom: 8 }}>{p.title}</div>
@@ -73,10 +106,10 @@ export default function Blog({ t, go, postSlug, setPostSlug }: BlogProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.45, ease: EASE }}>
       <PageHero t={t} label="Blog" title={<>The playbook they<Em t={t}> don't publish.</Em></>} subtitle="Real local SEO and AEO strategy for US service businesses. What's working now, what changed, and what to do about it." />
-      <section style={{ background: t.bg, padding: "6rem 3.5rem" }}>
+      <section style={{ background: t.bg, padding: "clamp(3rem,6vw,6rem) clamp(1.25rem,3.5vw,3.5rem)" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <motion.div whileHover={{ borderColor: t.border2 }} onClick={() => { setPostSlug(POSTS[0].slug); window.scrollTo(0, 0); }}
+            <motion.div whileHover={{ borderColor: t.border2 }} onClick={() => { setPostSlug(POSTS[0].slug); go("blog", POSTS[0].slug); window.scrollTo(0, 0); }}
               style={{ border: `1px solid ${t.border}`, borderRadius: 3, background: t.card, overflow: "hidden", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr 1fr", marginBottom: "1.5rem" }} className="fp">
               <div style={{ background: t.bg3, minHeight: 280, display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `linear-gradient(${t.border} 1px,transparent 1px),linear-gradient(90deg,${t.border} 1px,transparent 1px)`, backgroundSize: "40px 40px" }}>
                 <TbFileText size={36} style={{ color: t.low }} />
@@ -95,7 +128,7 @@ export default function Blog({ t, go, postSlug, setPostSlug }: BlogProps) {
           <div className="bg2" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1.25rem" }}>
             {POSTS.slice(1).map((post, i) => (
               <Reveal key={i} delay={i * 0.08}>
-                <motion.div whileHover={{ y: -4, borderColor: t.border2 }} onClick={() => { setPostSlug(post.slug); window.scrollTo(0, 0); }}
+                <motion.div whileHover={{ y: -4, borderColor: t.border2 }} onClick={() => { setPostSlug(post.slug); go("blog", post.slug); window.scrollTo(0, 0); }}
                   style={{ border: `1px solid ${t.border}`, borderRadius: 3, background: t.card, overflow: "hidden", cursor: "pointer" }}>
                   <div style={{ background: t.bg3, aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", backgroundImage: `linear-gradient(${t.border} 1px,transparent 1px),linear-gradient(90deg,${t.border} 1px,transparent 1px)`, backgroundSize: "40px 40px" }}>
                     <TbFileText size={24} style={{ color: t.low }} />

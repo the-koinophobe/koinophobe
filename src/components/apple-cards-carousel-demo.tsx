@@ -1,13 +1,24 @@
+import type { Theme } from "../types";
 import { Carousel, Card } from "../components/ui/apple-cards-carousel";
 
-export default function AppleCardsCarouselDemo() {
-  const cards = data.map((card, index) => (
+export default function AppleCardsCarouselDemo({ t }: { t: Theme }) {
+  const cards = DATA.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
 
   return (
-    // Removed py-20 — vertical rhythm is handled by the parent section
-    <div className="w-full h-full">
+    <div
+      className="w-full h-full"
+      style={{
+        "--kc-card":   t.card,
+        "--kc-bg2":    t.bg2,
+        "--kc-border": t.border,
+        "--kc-text":   t.text,
+        "--kc-mid":    t.mid,
+        "--kc-low":    t.low,
+        "--kc-accent": t.accent,
+      } as React.CSSProperties}
+    >
       <Carousel items={cards} />
     </div>
   );
@@ -25,12 +36,10 @@ const CaseStudyContent = ({
   detail: string;
 }) => (
   <div style={{ fontFamily: "system-ui, sans-serif" }}>
-    {/* Intro paragraph */}
     <p style={{ fontSize: 15, color: "#525252", lineHeight: 1.75, marginBottom: "1.75rem" }}>
       {intro}
     </p>
 
-    {/* Stat grid — always 2 cols to prevent overflow in the narrower modal */}
     <div
       style={{
         display: "grid",
@@ -81,14 +90,13 @@ const CaseStudyContent = ({
       ))}
     </div>
 
-    {/* Detail paragraph */}
     <p style={{ fontSize: 15, color: "#737373", lineHeight: 1.75 }}>{detail}</p>
   </div>
 );
 
 /* ── Case study data ───────────────────────────────────────────────────────── */
 
-const data = [
+const DATA = [
   {
     category: "Local SEO",
     title: "355K impressions in 6 months.",

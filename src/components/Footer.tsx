@@ -16,7 +16,7 @@ const SOCIAL_ICONS = [TbBrandLinkedin, TbBrandX, TbBrandInstagram] as const;
 
 export default function Footer({ t, go }: FooterProps) {
   return (
-    <footer style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "4.5rem 3.5rem 2.5rem" }}>
+    <footer style={{ background: t.bg, borderTop: `1px solid ${t.border}`, padding: "4.5rem clamp(1.25rem,3.5vw,3.5rem) 2.5rem" }}>
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
         <div className="fg" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3.5rem", marginBottom: "3.5rem", paddingBottom: "3.5rem", borderBottom: `1px solid ${t.border}` }}>
           <div>
@@ -51,7 +51,7 @@ export default function Footer({ t, go }: FooterProps) {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <span style={{ fontFamily: "monospace", fontSize: 10, color: t.low, letterSpacing: "0.06em" }}>
-            © 2025 Koinophobe — All rights reserved.
+            © 2026 Koinophobe — All rights reserved.
           </span>
           <div style={{ display: "flex", gap: "1.25rem" }}>
             {SOCIAL_ICONS.map((Icon, i) => (
